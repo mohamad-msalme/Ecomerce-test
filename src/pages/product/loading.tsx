@@ -20,8 +20,8 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({ isLoading }) => {
           <div className="animate-pulse bg-gray-200 absolute top-0 left-0 w-full h-full"></div>
         </div>
         <div className="space-y-2">
-          <div className="animate-pulse bg-gray-200 h-12 w-[90%]"></div>
-          <div className="animate-pulse bg-gray-200 h-24 w-[70%]"></div>
+          <div className="animate-pulse  bg-gray-200 h-12 "></div>
+          <div className="animate-pulse bg-gray-200 h-24 "></div>
         </div>
       </div>
     </div>

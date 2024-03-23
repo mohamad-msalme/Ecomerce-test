@@ -3,88 +3,77 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { EyeIcon } from "lucide-react";
 import { Product } from "@src/models/Product";
-import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 import { useNavigate } from "react-router-dom";
+import { useCartState } from "@src/state/CartState";
+import { useWisheslistState } from "@src/state/WishlistState";
+import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 
 type ProductCardProps = Product & {
   lastElement: boolean;
   innerRef: React.Ref<HTMLParagraphElement>;
 };
+
 export const ProductCard: React.FC<ProductCardProps> = ({
-  name,
-  description,
-  image,
-  store,
-  views,
-  stock_status,
-  price,
   lastElement,
   innerRef,
-  id,
+  ...product
 }) => {
+  const [, addToCart] = useCartState();
+  const [, addToWishlist] = useWisheslistState();
   const navigate = useNavigate();
+
+  const handelAction = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    callback: (p: Product) => void
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    callback(product);
+  };
+
   return (
     <Card
-      onClick={(e) => {
-        console.log(e);
-        console.log({ asdasd: 4545 });
-        navigate(`/${id}`);
-      }}
+      onClick={() => navigate(`/${product.id}`)}
       className="relative cursor-pointer shadow-md grid overflow-hidden grid-rows-[250px] grid-cols-1 gap-4"
     >
-      <CardHeader className="grid grid-rows-[250px] grid-cols-1 overflow-hidden p-0">
+      <CardHeader className="grid grid-rows-[250px] grid-cols-1 overflow-hidden p-0 relative">
         <img
-          className="object-cover w-full h-full"
-          src={import.meta.env.VITE_BASE_URL_ASSETS + image}
+          className="w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-125"
+          src={import.meta.env.VITE_BASE_URL_ASSETS + product.image}
           alt=""
         />
       </CardHeader>
-      <CardContent className=" flex flex-col space-y-4 mb-auto">
-        <div className="flex justify-between item-center flex-wrap gap-4">
-          <p className="text-gray-500 font-medium  ">{store.name}</p>
+      <CardContent className=" flex flex-col space-y-4 mb-auto h-full">
+        <div className="flex justify-between items-center flex-wrap gap-4 flex-1">
+          <p className="text-gray-500 font-medium  ">{product.store.name}</p>
           <div className="flex items-center">
             <EyeIcon className=" w-5 h-5 text-gray-500" />
             <p className="text-gray-600 font-bold text-sm ml-1">
-              {views} views
+              {product.views} views
             </p>
           </div>
           <Badge className=" bg-green-500 px-3 py-1">
-            {stock_status.label}
+            {product.stock_status.label}
           </Badge>
         </div>
-        <h3 className=" font-bold text-gray-800 md:text-xl text-xl line-clamp-1">
-          {name}
+        <h3 className=" font-bold text-gray-800 md:text-xl text-xl line-clamp-1 flex-1">
+          {product.name}
         </h3>
         <CardDescription
           className=" line-clamp-3"
-          dangerouslySetInnerHTML={{ __html: description }}
+          dangerouslySetInnerHTML={{ __html: product.description }}
         ></CardDescription>
-        <p className="text-xl font-bold text-gray-800">
-          {"$" + price.toString()}
+        <p className="text-xl font-bold text-gray-800 flex-1">
+          {"$" + product.price.toString()}
         </p>
         <div
           ref={lastElement ? innerRef : undefined}
-          className=" flex justify-center gap-2"
+          className=" flex justify-center gap-2 mt-auto"
         >
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              console.log("first");
-            }}
-            size="sm"
-          >
-            Add to cart{" "}
+          <Button onClick={(e) => handelAction(e, addToCart)} size="sm">
+            Add to cart
           </Button>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log("Whilst");
-            }}
-            size="sm"
-          >
+          <Button onClick={(e) => handelAction(e, addToWishlist)} size="sm">
             Add to Whilst
           </Button>
         </div>

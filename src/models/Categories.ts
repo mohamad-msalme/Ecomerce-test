@@ -17,4 +17,6 @@ export interface Categories {
     product_id: number;
     category_id: number;
   };
+  products_count: number;
+  active_children: Categories[];
 }

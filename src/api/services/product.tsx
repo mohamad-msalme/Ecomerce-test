@@ -4,6 +4,11 @@ import { Product } from "@src/models/Product";
 import { axiosInstance } from "../client";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 
+type TFilter = {
+  cat: string | null;
+  sortBy: string | null;
+};
+
 export type SuccessResponse = {
   code: number;
   data: {
@@ -25,8 +30,8 @@ export type SuccessResponse = {
   response: string;
 };
 
-export const ProductsQuery = (sortBy: string | null) => ({
-  queryKey: ["ProductsQuery", sortBy],
+export const ProductsQuery = (filter?: Record<string, string | null>) => ({
+  queryKey: ["ProductsQuery", filter],
   queryFn: async (context: QueryFunctionContext<QueryKey, number>) =>
     getProducts(context),
 });
@@ -34,10 +39,14 @@ export const ProductsQuery = (sortBy: string | null) => ({
 const getProducts = async (context: QueryFunctionContext<QueryKey, number>) => {
   try {
     const { queryKey, pageParam } = context;
-    const [_key, sortBy] = queryKey;
-    const sortBySearch = sortBy ? `&sort-by=${sortBy}` : "";
+    const [_key, { sortBy, cat }] = queryKey as [string, TFilter];
+    const sortByValue = sortBy === "DEFF" ? undefined : sortBy;
+    const sortByQuery = sortByValue ? `&sort-by=${sortByValue}` : "";
     const data = await axiosInstance.post<SuccessResponse>(
-      `products/all?page=${pageParam}${sortBySearch}`
+      `products/all?page=${pageParam}${sortByQuery}`,
+      {
+        categories: cat ? [cat] : [],
+      }
     );
     return data.data.data;
   } catch (error) {

@@ -1,29 +1,10 @@
+import { Categories } from "./Categories";
 import { Slugable, StoreStatus } from "./Store";
 
 export interface Status {
   value: string;
   label: string;
 }
-
-export interface Categories {
-  id: number;
-  name: string;
-  parent_id: number;
-  description: string | null;
-  status: Status;
-  order: number;
-  image: string;
-  is_featured: number;
-  created_at: string;
-  updated_at: string;
-  icon: string;
-  icon_image: string | null;
-  pivot: {
-    product_id: number;
-    category_id: number;
-  };
-}
-
 export interface Store {
   id: number;
   name: string;

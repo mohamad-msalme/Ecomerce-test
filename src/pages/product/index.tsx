@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { SortSelect } from "@src/components/SortSelect";
 import { ProductCard } from "@src/components/ProductCard";
 import { SkeletonCard } from "./loading";
-import { FilterProduct } from "@src/components/FilterProduct";
+import { CatogorySelect } from "@src/components/CatogorySelect";
 import { useProductsData } from "./useProductsData";
 
 /**
@@ -17,17 +17,19 @@ import { useProductsData } from "./useProductsData";
  */
 export const ProductPage: React.FC = () => {
   const { ref, inView } = useInView({ rootMargin: "100px" });
-  const { hasNextPage, fetchNextPage, data, isSuccess, isLoading, isFetching } =
+  const { hasNextPage, data, fetchNextPage, isSuccess, isLoading, isFetching } =
     useProductsData();
 
   React.useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
   }, [hasNextPage, fetchNextPage, inView]);
 
   return (
     <div className=" flex flex-col gap-4">
       <div className="flex justify-between items-center gap-4">
-        <FilterProduct />
+        <CatogorySelect />
         <SortSelect />
       </div>
       <div className=" grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">

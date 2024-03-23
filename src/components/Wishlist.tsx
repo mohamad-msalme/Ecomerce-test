@@ -1,5 +1,8 @@
 import React from "react";
-import { DropDownMenuCard, DropDownMenuCardProps } from "./DropDownMenuCard";
+import { BadgeBtn } from "./ui/BadgeBtn";
+import { HeartIcon } from "lucide-react";
+import { DropDownMenuCard } from "./DropDownMenuCard";
+import { useWisheslistState } from "@src/state/WishlistState";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,38 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { BadgeBtn } from "./ui/BadgeBtn";
-import { HeartIcon } from "lucide-react";
-
-const data: DropDownMenuCardProps[] = [
-  {
-    id: "1",
-    name: "Wireless Earbuds",
-    catagrories: ["Black", "In-ear", "Black"],
-    price: "79.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-  {
-    id: "2",
-    name: "Sunglasses",
-    catagrories: ["Reflective", "lenses"],
-    price: "99.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-  {
-    id: "3",
-    name: "Smartwatch",
-    catagrories: ["Waterproof", "lenses"],
-    price: "129.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-];
 
 export const Wishlist: React.FC = () => {
+  const [wishlistItems] = useWisheslistState();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="">
-        <BadgeBtn length={data.length}>
+        <BadgeBtn length={wishlistItems.length}>
           <HeartIcon className=" size-5" />
         </BadgeBtn>
       </DropdownMenuTrigger>
@@ -47,7 +25,7 @@ export const Wishlist: React.FC = () => {
         <DropdownMenuLabel className=" text-lg">My Wishlist</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {data.map((item) => (
+          {wishlistItems.map((item) => (
             <DropDownMenuCard {...item} wishlist />
           ))}
         </DropdownMenuGroup>

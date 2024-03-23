@@ -1,6 +1,9 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { DropDownMenuCard, DropDownMenuCardProps } from "./DropDownMenuCard";
+import { BadgeBtn } from "./ui/BadgeBtn";
+import { useCartState } from "@src/state/CartState";
+import { ShoppingBagIcon } from "lucide-react";
+import { DropDownMenuCard } from "./DropDownMenuCard";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,38 +13,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { BadgeBtn } from "./ui/BadgeBtn";
-import { ShoppingBagIcon } from "lucide-react";
-
-const data: DropDownMenuCardProps[] = [
-  {
-    id: "1",
-    name: "Wireless Earbuds",
-    catagrories: ["Black", "In-ear", "Black"],
-    price: "79.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-  {
-    id: "2",
-    name: "Sunglasses",
-    catagrories: ["Reflective", "lenses"],
-    price: "99.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-  {
-    id: "3",
-    name: "Smartwatch",
-    catagrories: ["Waterproof", "lenses"],
-    price: "129.00",
-    img: "decoala/deck-spot-14-a19.jpg",
-  },
-];
+import { useNavigate } from "react-router-dom";
 
 export const ShoppingBag: React.FC = () => {
+  const navigate = useNavigate();
+  const [cartItems] = useCartState();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <BadgeBtn length={data.length}>
+        <BadgeBtn length={cartItems.length}>
           <ShoppingBagIcon className=" size-5" />
         </BadgeBtn>
       </DropdownMenuTrigger>
@@ -49,14 +29,16 @@ export const ShoppingBag: React.FC = () => {
         <DropdownMenuLabel className=" text-lg">My Cart</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {data.map((item) => (
+          {cartItems.map((item) => (
             <DropDownMenuCard {...item} />
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
-          <Button className=" w-full">Go to cart</Button>
+          <Button onClick={() => navigate("cart")} className=" w-full">
+            Go to cart
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

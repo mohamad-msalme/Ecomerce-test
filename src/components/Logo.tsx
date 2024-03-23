@@ -9,7 +9,7 @@ export const Logo: React.FC = () => {
       onClick={hamdelClick}
       className="text-3xl cursor-pointer font-bold text-blue-500 tracking-wide"
     >
-      E<span className="text-pink-500">V</span>A
+      E<span className="text-pink-500">W</span>A
     </p>
   );
 };

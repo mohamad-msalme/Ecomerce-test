@@ -2,6 +2,7 @@
 import { ProductsQuery } from "@src/api/services/product";
 import { useSearchParams } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
 
 /**
  * The `useProductsData` function in TypeScript React is a custom hook that fetches and manages product
@@ -12,8 +13,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
  * `getNextPageParam` and `getPreviousPageParam` functions are defined to extract the page number from
  * the
  */
-export const useProductsData = (enabled?: boolean) => {
+export const useProductsData = () => {
   const [searchParams] = useSearchParams();
+
+  const filter = React.useMemo(() => {
+    return {
+      sortBy: searchParams.get("sort-by"),
+      cat: searchParams.get("cat"),
+    };
+  }, [searchParams]);
+
   const getPage = (url: string | null) => {
     if (!url) return undefined;
     const matchPageNumber = url.match(/page=(\d+)/)?.[1];
@@ -24,8 +33,7 @@ export const useProductsData = (enabled?: boolean) => {
   };
 
   const result = useInfiniteQuery({
-    enabled,
-    ...ProductsQuery(searchParams.get("sort-by")),
+    ...ProductsQuery(filter),
     initialPageParam: 1,
     getNextPageParam: (lastPage, _pages) => getPage(lastPage.next_page_url),
     getPreviousPageParam: (lastPage, _pages) => getPage(lastPage.prev_page_url),

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const SelectOptions = [
   {
@@ -32,21 +32,18 @@ const SelectOptions = [
   },
 ];
 
+
 export const SortSelect: React.FC = () => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const value = React.useMemo(() => {
     const sortBy = searchParams.get("sort-by");
-    return !sortBy || sortBy === "DEFF" ? undefined : sortBy;
+    return !sortBy || sortBy === "DEFF" ? "DEFF" : sortBy;
   }, [searchParams]);
 
   const onValueChange = (value: string) => {
     if (value === "DEFF") {
       searchParams.delete("sort-by");
-      setSearchParams(searchParams);
-      return navigate(`${pathname}?${searchParams.toString()}`);
     }
     searchParams.set("sort-by", value);
     setSearchParams(searchParams);
