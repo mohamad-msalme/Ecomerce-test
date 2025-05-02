@@ -76,7 +76,7 @@ export const CartItem: React.FC<CartItemProps> = ({
           height={200}
           alt="Thumbnail"
           className="rounded-md aspect-square object-cover"
-          src={import.meta.env.VITE_BASE_URL_ASSETS + product.image}
+          src={product.image}
         />
       </div>
       <div className=" flex-1">

@@ -39,7 +39,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
           className={`
         ${isZoomed ? "w-auto h-auto max-w-full max-h-full" : "w-full h-full"}
         aspect-square object-cover border border-gray-200 rounded-lg overflow-hidden dark:border-gray-800`}
-          src={import.meta.env.VITE_BASE_URL_ASSETS + state}
+          src={state}
           id="zoomable-image"
           onClick={() => handleZoom("zoomable-image")}
           style={{ cursor: isZoomed ? "zoom-out" : "zoom-in" }}
@@ -56,7 +56,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
               alt="Preview thumbnail"
               className="aspect-square object-cover"
               height={100}
-              src={import.meta.env.VITE_BASE_URL_ASSETS + src}
+              src={src}
               width={100}
             />
           </button>

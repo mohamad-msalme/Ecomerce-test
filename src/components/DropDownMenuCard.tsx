@@ -40,7 +40,7 @@ export const DropDownMenuCard: React.FC<DropDownMenuCardProps> = ({
               alt="Thumbnail"
               className="rounded-md aspect-square object-cover"
               height="64"
-              src={import.meta.env.VITE_BASE_URL_ASSETS + product.image}
+              src={product.image}
               width="64"
             />
             <div className="grid gap-1 text-xs mr-auto">

@@ -39,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <CardHeader className="grid grid-rows-[250px] grid-cols-1 overflow-hidden p-0 relative">
         <img
           className="w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-125"
-          src={import.meta.env.VITE_BASE_URL_ASSETS + product.image}
+          src={product.image}
           alt=""
         />
       </CardHeader>
